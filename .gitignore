@@ -1,0 +1,5 @@
+target/
+.settings/
+.project
+hot/springloaded-1.2.3.RELEASE.jar
+.classpath
