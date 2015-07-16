@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
-//認証済みユーザー情報の拡張実装
+//認証済みユーザー情報の拡張実装。ただし、今のところSpringSecurityの拡張部分は未使用。
 @Entity
 public class User extends org.springframework.security.core.userdetails.User {
 
