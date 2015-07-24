@@ -13,17 +13,13 @@
 		<ul th:if="${#fields.hasGlobalErrors()}">
 		 <li class="text-danger" th:each="err : ${#fields.globalErrors()}" th:text="${err}">err</li>
 		</ul>
-
 		
-		<div class="form-group" th:classappend="${#fields.hasErrors('id') ? 'has-error' : ''}">
+		<div class="form-group" th:replace="helper/bs :: input('id', 'ID', 'text', 'user1')" >
 		    <label for="id" class="label-control" >ID</label>
-		    <span class="text-danger" th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Error</span>
-		    <input type="text" name="id" id="id" class="form-control" th:field="*{id}" placeholder="user1"  />
+		    <input type="text" name="id" id="id" class="form-control"  placeholder="user1"  />
 		</div>
-		<div class="form-group" th:classappend="${#fields.hasErrors('password') ? 'has-error' : ''}">
-		    <label for="password" class="label-control">password</label>
-		    <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
-		    <input type="password" name="password" id="password" class="form-control" th:field="*{password}" placeholder="user1"  />
+		
+		<div class="form-group" th:replace="helper/bs :: input('password', 'PASSWORD', 'password', 'user1')" >
 		</div>
 
 		<button type="submit" class="btn btn-primary">ログイン</button>

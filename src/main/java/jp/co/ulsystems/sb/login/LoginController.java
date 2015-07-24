@@ -1,5 +1,7 @@
 package jp.co.ulsystems.sb.login;
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import jp.co.ulsystems.sb.auth.User;
@@ -60,9 +62,12 @@ public class LoginController {
 	
 	
 	@RequestMapping(value= "/welcome", method = RequestMethod.GET)
-	public String welcome(AuthUser authUser) {
+	public String welcome(AuthUser authUser, Model model) {
 		// セッションに格納したオブジェクトを @ModelAttributeアノテーションを引数に指定して取得可能。
-		System.out.println("welcome:" + authUser.getId());
+		
+		model.addAttribute("notifications", 
+				Arrays.asList("This is Spring-boot application","note"));
+		
 		return "welcome";
     }
 	
