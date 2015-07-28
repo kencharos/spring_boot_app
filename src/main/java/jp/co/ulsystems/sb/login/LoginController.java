@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import jp.co.ulsystems.sb.auth.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,8 +26,6 @@ public class LoginController {
 	@Autowired
 	private DummyLoginService loginService;
 	
-	@Autowired
-	private AuthenticationManager am;
 	
 	@RequestMapping(value= "/login", method = RequestMethod.GET)
 	public String login(LoginRequest req, Model model) {

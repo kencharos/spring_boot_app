@@ -1,5 +1,6 @@
 package jp.co.ulsystems.sb;
 
+import org.apache.activemq.filter.function.makeListFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 //TODO 今は使用しない。
 @Configuration
@@ -31,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
            // .logout()
            //     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
            //     .permitAll();
+        // CSRF対策も一旦無効
+        RequestMatcher matcher = request -> !request.getRequestURI().startsWith("/");
+        http.csrf().requireCsrfProtectionMatcher(matcher);
     }
 
     @Autowired

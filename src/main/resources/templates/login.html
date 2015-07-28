@@ -22,8 +22,31 @@
 		<div class="form-group" th:replace="helper/bs :: input('password', 'PASSWORD', 'password', 'user1')" >
 		</div>
 
+		<input type="button" id="ajax" class="btn btn-default" value="ログインチェック(ajax)"/>
 		<button type="submit" class="btn btn-primary">ログイン</button>
 	</form>
+	
+    <script>
+//<![CDATA[
+$(function(){
+	
+	$("#ajax").click(function(e){
+			$.ajax({url:"/login/tryLogin", 
+	        method:"POST", 
+	        data:JSON.stringify({id:$("#id").val(), password:$("#password").val()}),
+	        contentType: "application/json; charset=utf-8"}
+		).success(function(data){
+			alert("OK");
+		}).error( function(data){
+			alert(data.responseJSON.messages.join("\n"));
+		});
+	});
+});
+//]]>
+</script>
     </div>
+    
+    
+    
   </body>
 </html>
