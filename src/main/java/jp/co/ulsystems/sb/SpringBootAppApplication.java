@@ -1,8 +1,5 @@
 package jp.co.ulsystems.sb;
 
-import jp.co.ulsystems.sb.auth.User;
-import jp.co.ulsystems.sb.auth.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,11 +10,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+
+import jp.co.ulsystems.sb.auth.User;
+import jp.co.ulsystems.sb.auth.UserRepository;
 
 @SpringBootApplication
 @EnableWebMvc
