@@ -25,7 +25,21 @@ public class LoginController {
 
 	@Autowired
 	private DummyLoginService loginService;
-	
+
+	@ModelAttribute
+	public LoginRequest createForm(){
+		// ModelAttributeを指定したメソッドは、リクエストを処理するメソッド実行前に呼ばれ、モデルの初期化処理を行う。
+		return new LoginRequest();
+	}
+
+	@ModelAttribute("authUser")
+	public AuthUser crateAuthUser(){
+		// @SessiontAttributeに指定があるModelはこのメソッドで初期化したあと、セッションスコープで保持し、次回からはセッションから取得する
+		// ただし、セッションから取得する場合でも無駄にリクエストごとにメソッドが実行されてしまう。
+		//　ModelAttirbuteに名称を設定すると、呼び出しを1度だけに抑制できる。
+		System.out.println("Auth user initialize");
+		return new AuthUser();
+	}
 	
 	@RequestMapping(value= "/login", method = RequestMethod.GET)
 	public String login(LoginRequest req, Model model) {
@@ -34,7 +48,7 @@ public class LoginController {
 	
 	@RequestMapping(value= "/login", method = RequestMethod.POST)
 	public String doLogin(@Valid LoginRequest req, BindingResult res, 
-			Model model, AuthUser authUser) {
+			Model model,  AuthUser authUser) {
 		
 		if (res.hasErrors()) {
 			return "login";
@@ -48,8 +62,9 @@ public class LoginController {
 		
 		return "redirect:/welcome";
     }
+	
 	@RequestMapping(value= "/logout", method = RequestMethod.GET)
-	public String logout(SessionStatus status,AuthUser authUser) {
+	public String logout(SessionStatus status, AuthUser authUser) {
 		System.out.println("logout:" + authUser.getId());
 		// セッション解放@SessionAttributesで定義されたオブジェクトが自動解放。
 		// @Scope("session")のbeanをインジェクションで取得した場合は、解放されない。
@@ -68,9 +83,10 @@ public class LoginController {
 		return "welcome";
     }
 	
+	// MEMO
 	// セッションを使用する方法はSpring MVCでは色々ある。
 	// 1. コントローラメソッド引数に、HttpSessionを追加する。従来型の方法
-	// 2. SessionAttributes,ModelAttributesを使用するSpring MVCの方法。これが自動解放などもあるし便利? でもviewでの参照で癖がある。
+	// 2. SessionAttributes,ModelAttributesを使用するSpring MVCの方法。これが自動解放などもあるし便利。 しかしviewでの参照で癖がある。
 	// 3. Spring Beanの定義に、　@Scope("session")を追加して、インジェクションする方法。解放などはSpring 任せになる。　プロキシなどトラップ多し。
 	
 	// @ModelAtttibuteアノテーション付きのメソッドを使用することで、各メソッドにAuthUser型の引数をセッションスコープで追加できる。
@@ -81,11 +97,6 @@ public class LoginController {
 	//     のようにすると、@SeesoinAttributesと同じ名前のオブジェクトがセッションスコープで扱われるし、その名前でviewから参照可能。
 	//   3. 別のコントローラメソッドでそのオブジェクトを使用するには、引数に、 @ModelAttributes("任意名") HogeBean bean
 	//      のように、@ModelAttributesアノテーションを引数に入れる。
-	//   4. この場合、↓のメソッドはいらない。一長一短だな。。
-	@ModelAttribute("authUser") 
-	public AuthUser createAuthUser() {
-		System.out.println("crelete session model");
-		return new AuthUser();
-	}		
+
 	
 }

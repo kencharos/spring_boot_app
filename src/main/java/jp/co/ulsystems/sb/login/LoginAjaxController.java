@@ -10,6 +10,7 @@ import jp.co.ulsystems.sb.auth.LogingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,13 +18,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@Controller
 @RestController
 public class LoginAjaxController {
 
 	@Autowired
 	private DummyLoginService loginService;
 	
+	@ModelAttribute
+	public LoginRequest createForm(){
+		return new LoginRequest();
+	}
 	
 	@RequestMapping(value="/login/tryLogin", method=RequestMethod.POST)
 	public @ResponseBody LogingResult tryLogin(@Valid @RequestBody LoginRequest req
