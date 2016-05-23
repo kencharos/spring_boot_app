@@ -7,7 +7,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
-@SpringBootApplication
+// Thymleaf3が正式に採用されるまでの暫定対応。
+@SpringBootApplication(exclude={org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration.class} )
 @EnableWebMvc
 public class SpringBootAppApplication extends WebMvcAutoConfigurationAdapter {
 

@@ -1,8 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-  <title>Override Content page title</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_header(title)">
+  <title th:replace="${title}">Override Content page title</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="/css/main.css"/>
   <link rel="stylesheet" href="/webjars/bootstrap/3.3.4/css/bootstrap.min.css"/>
@@ -10,7 +9,7 @@
   <script src="/webjars/jquery/2.1.4/jquery.min.js"></script>
   <script src="/webjars/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body th:fragment="main_content(contents)">
   <nav class="navbar navbar-inverse">
       <div class="container">
           <div class="navbar-header">
@@ -22,8 +21,7 @@
       </div>
   </nav>
   <div class="container">
-  <th:block layout:fragment="main">
-  </th:block>
+  	<th:block th:replace="${contents}"/>
   </div>
   
   <footer class="footer">

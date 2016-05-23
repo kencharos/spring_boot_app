@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorator="layout">
-  <head>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head th:replace="layout::common_header(~{::title})">
     <title>login</title>
   </head>
-  <body><!-- main内のみが置き換わる。 -->
-    <div layout:fragment="main">
+  <body th:replace="layout::main_content(~{::div#content})">
+    <div id="content" >
     <h1>Login</h1>
 	<form action="#" th:action="@{/login}" method="post" class="form" th:object="${loginRequest}">
 
@@ -14,16 +12,13 @@
 		 <li class="text-danger" th:each="err : ${#fields.globalErrors()}" th:text="${err}">err</li>
 		</ul>
 		
-		<div class="form-group" th:classappend="${#fields.hasErrors('id') ? 'has-error' : ''}">
-		    <label for="id" class="label-control" >ID</label>
-		    <span class="text-danger" th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Error</span>
-		    <input type="text" th:field="*{id}" class="form-control"  placeholder="user1"  />
+		<div th:replace="helper/bs::form_group('id', 'ID', ~{::input#id})">
+		    <label >ID</label>
+		    <input id="id" type="text" th:field="*{id}" class="form-control"  placeholder="user1">
 		</div>
 		
-		<div class="form-group" th:classappend="${#fields.hasErrors('password') ? 'has-error' : ''}">
-		    <label for="password" class="label-control" >password</label>
-		    <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
-		    <input type="password" th:field="*{password}" class="form-control"  placeholder="user1"  />
+		<div th:replace="helper/bs::form_group('password', 'PASSWORD', ~{::input#password})">
+		    <input id="password" type="password" th:field="*{password}" class="form-control"  placeholder="user1"  />
 		</div>
 
 		<input type="button" id="ajax" class="btn btn-default" value="ログインチェック(ajax)"/>

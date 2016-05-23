@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <!-- __${xx}__ はプリプロセッシングの指定であり先行評価される。-->
-<body th:fragment="input(fid, label, type, placeholder)">
+<body th:fragment="form_group(fid, label, input_element)">
    <div  class="form-group" th:classappend="${#fields.hasErrors('__${fid}__') ? 'has-error' : ''}">
 	    <label th:for="${fid}" class="label-control" th:text="${label}" >Label</label>
 	    <span class="text-danger" th:if="${#fields.hasErrors('__${fid}__')}" th:errors="*{__${fid}__}">Error</span>
-	    <input th:type="${type == null ? 'text' : type}" th:name="${fid}" th:id="${fid}" class="form-control" th:field="*{__${fid}__}" th:placeholder="${placeholder}"  />
+	    <th:block th:replace="${input_element}"/>
    </div>
 </body>
 </html>

@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorator="layout">
-  <head>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head th:replace="layout::common_header(~{::title})">
     <title>welcome</title>
   </head>
-  <body><!-- main内のみが置き換わる。 -->
-    <div layout:fragment="main">
+  <body th:replace="layout::main_content(~{::div#content})">
+    <div id="content">
       <h1>welcome! <span th:text="${authUser.id}">user</span></h1>
       
       <ul>
