@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!-- __${xx}__ はプリプロセッシングの指定であり先行評価される。-->
 <body th:fragment="form_group(fid, label, input_element)">
-   <div  class="form-group" th:classappend="${#fields.hasErrors('__${fid}__') ? 'has-error' : ''}">
+   <div  class="form-group" th:classappend="${#fields.hasErrors('__${fid}__')}? 'has-error'">
 	    <!--/*  [[${}]] is alternative th:text. this comment will remove at parsing.  */-->
 	    <label th:for="${fid}" class="label-control" >[[${label}]]</label>
 	    <span class="text-danger" th:if="${#fields.hasErrors('__${fid}__')}" th:errors="*{__${fid}__}">Error</span>
