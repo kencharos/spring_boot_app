@@ -13,6 +13,7 @@
 		<ul th:if="${#fields.hasGlobalErrors()}">
 		 <li class="text-danger" th:each="err : ${#fields.globalErrors()}" th:text="${err}">err</li>
 		</ul>
+		<span class="text-info" th:text="${message}">welcome message.</span>
 		
 		<div class="form-group" th:classappend="${#fields.hasErrors('id') ? 'has-error' : ''}">
 		    <label for="id" class="label-control" >ID</label>

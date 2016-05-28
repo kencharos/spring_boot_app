@@ -43,13 +43,13 @@ public class LoginController {
 	
 	@RequestMapping(value= "/login", method = RequestMethod.GET)
 	public String login(LoginRequest req, Model model) {
+		model.addAttribute("message", "input your id and passowd.");
 		return "login";
     }
 	
 	@RequestMapping(value= "/login", method = RequestMethod.POST)
 	public String doLogin(@Valid LoginRequest req, BindingResult res, 
 			Model model,  AuthUser authUser) {
-		
 		if (res.hasErrors()) {
 			return "login";
 		}
@@ -58,14 +58,14 @@ public class LoginController {
 			res.addError(new ObjectError("global", "invalid id or password"));
 			return "login";
 		}
-		authUser.setId(user.getId());
+		authUser.setUserId(user.getId());
 		
 		return "redirect:/welcome";
     }
 	
 	@RequestMapping(value= "/logout", method = RequestMethod.GET)
 	public String logout(SessionStatus status, AuthUser authUser) {
-		System.out.println("logout:" + authUser.getId());
+		System.out.println("logout:" + authUser.getUserId());
 		// セッション解放@SessionAttributesで定義されたオブジェクトが自動解放。
 		// @Scope("session")のbeanをインジェクションで取得した場合は、解放されない。
 		status.setComplete();
