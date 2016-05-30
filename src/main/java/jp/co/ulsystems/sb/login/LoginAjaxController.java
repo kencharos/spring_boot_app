@@ -5,38 +5,37 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import jp.co.ulsystems.sb.auth.LogingResult;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jp.co.ulsystems.sb.auth.LoginResult;
 
-@RestController
+
+@RestController //(1) RestControllerを指定
 public class LoginAjaxController {
 
 	@Autowired
 	private DummyLoginService loginService;
 	
-	@ModelAttribute
-	public LoginRequest createForm(){
-		return new LoginRequest();
-	}
-	
-	@RequestMapping(value="/login/tryLogin", method=RequestMethod.POST)
-	public @ResponseBody LogingResult tryLogin(@Valid @RequestBody LoginRequest req
+	// (2) consumes, produces で送受できる形式を指定
+	@RequestMapping(value="/login/tryLogin", method=RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public LoginResult tryLogin(@Valid @RequestBody LoginRequest req
 			, BindingResult res, HttpServletResponse response) {
+		// (3) @RequestBody でJSONデータをマッピングするオブジェクトを指定
 		
-		LogingResult result = new LogingResult();
+		LoginResult result = new LoginResult();
 		if (res.hasErrors()) {
+			// エラーメッセージを変換
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			result.messages = res.getAllErrors().stream().map(er -> er.getCodes()[1]+ "-" + er.getDefaultMessage())
+			result.messages = res.getAllErrors().stream()
+					.map(er -> er.getCodes()[1]+ "-" + er.getDefaultMessage())
 			.collect(Collectors.toList());
 			return result;
 		}
@@ -49,6 +48,7 @@ public class LoginAjaxController {
 		} else {
 			result.success = true;
 		}
+		// (4) 返却したオブジェクトはJSONに変換する。
 		return result;
 		
 	}
