@@ -1,10 +1,6 @@
 package jp.co.ulsystems.sb.login;
 
-import java.util.Arrays;
-
 import javax.validation.Valid;
-
-import jp.co.ulsystems.sb.auth.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,31 +11,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
+
+import jp.co.ulsystems.sb.auth.User;
 
 
 @Controller
-//セッションで使用する名称または型を指定。
-@SessionAttributes(types = AuthUser.class) 
+//　入力値をコントローラ単位でセッションに持つ場合、SessionAttributesを使う
+//@SessionAttributes(types = LoginRequest.class) 
 public class LoginController {
 
 	@Autowired
 	private DummyLoginService loginService;
 
+	@Autowired
+	private AuthUser authUser;
+	
 	@ModelAttribute
 	public LoginRequest createForm(){
 		// ModelAttributeを指定したメソッドは、リクエストを処理するメソッド実行前に呼ばれ、モデルの初期化処理を行う。
 		return new LoginRequest();
 	}
 
-	@ModelAttribute("authUser")
-	public AuthUser crateAuthUser(){
-		// @SessiontAttributeに指定があるModelはこのメソッドで初期化したあと、セッションスコープで保持し、次回からはセッションから取得する
-		// ただし、セッションから取得する場合でも無駄にリクエストごとにメソッドが実行されてしまう。
-		//　ModelAttirbuteに名称を設定すると、呼び出しを1度だけに抑制できる。
-		System.out.println("Auth user initialize");
-		return new AuthUser();
-	}
 	
 	@RequestMapping(value= "/login", method = RequestMethod.GET)
 	public String login(LoginRequest req, Model model) {
@@ -49,7 +41,7 @@ public class LoginController {
 	
 	@RequestMapping(value= "/login", method = RequestMethod.POST)
 	public String doLogin(@Valid LoginRequest req, BindingResult res, 
-			Model model,  AuthUser authUser) {
+			Model model) {
 		if (res.hasErrors()) {
 			return "login";
 		}
@@ -64,24 +56,14 @@ public class LoginController {
     }
 	
 	@RequestMapping(value= "/logout", method = RequestMethod.GET)
-	public String logout(SessionStatus status, AuthUser authUser) {
+	public String logout() {
 		System.out.println("logout:" + authUser.getUserId());
 		// セッション解放@SessionAttributesで定義されたオブジェクトが自動解放。
 		// @Scope("session")のbeanをインジェクションで取得した場合は、解放されない。
-		status.setComplete();
+		authUser.setUserId(null);
 		return "redirect:/";
     }
 	
-	
-	@RequestMapping(value= "/welcome", method = RequestMethod.GET)
-	public String welcome(AuthUser authUser, Model model) {
-		// セッションに格納したオブジェクトを @ModelAttributeアノテーションを引数に指定して取得可能。
-		
-		model.addAttribute("notifications", 
-				Arrays.asList("This is Spring-boot application","note"));
-		
-		return "welcome";
-    }
 	
 	// MEMO
 	// セッションを使用する方法はSpring MVCでは色々ある。

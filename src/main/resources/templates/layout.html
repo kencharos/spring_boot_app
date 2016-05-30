@@ -16,7 +16,7 @@
           <div class="navbar-header">
               <a class="navbar-brand" href="/">Spring Boot Sample</a>
           </div>
-          <div class="navbar-form navbar-right" th:if="${authUser != null &amp;&amp; authUser.isLogin()}">
+          <div class="navbar-form navbar-right" th:if="${session['scopedTarget.authUser'] != null &amp;&amp; session['scopedTarget.authUser'].isLogin()}">
                <a th:href="@{/logout}" class="btn btn-default">ログアウト</a>
           </div>
       </div>

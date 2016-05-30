@@ -9,9 +9,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 // SpringCoreの機能を使用してセッションスコープのBeanをインジェクションさせる場合は、@Component,@Scopeアノテーションを使う。
 // インジェクションした場合スコープ制御はSpringが行うので、MVC側の SesionStatus#setCompleteによる破棄は不可。
-//@Component
+@Component
 // proxyモードはシングルトンスコープのコントローラにインジェクションさせるために必要
-//@Scope(value=WebApplicationContext.SCOPE_SESSION, proxyMode=ScopedProxyMode.TARGET_CLASS)
+@Scope(value=WebApplicationContext.SCOPE_SESSION, proxyMode=ScopedProxyMode.TARGET_CLASS)
 public class AuthUser implements Serializable {
 
 	private String userId;

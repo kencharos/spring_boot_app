@@ -7,7 +7,7 @@
   </head>
   <body><!-- main内のみが置き換わる。 -->
     <div layout:fragment="main">
-      <h1>welcome! <span th:text="${authUser.userId}">user</span></h1>
+      <h1>welcome! <span th:text="${userId}">user</span></h1>
       
       <ul>
       	<li th:each="note:${notifications}" th:text="${note}"></li>
