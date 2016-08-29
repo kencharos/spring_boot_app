@@ -27,13 +27,13 @@ public class LoginController {
 	private AuthUser authUser;
 	
 	@RequestMapping(value= "/login", method = RequestMethod.GET)
-	public String login(LoginRequest req, Model model) {
+	public String login(@ModelAttribute LoginRequest req, Model model) {
 		model.addAttribute("message", "input your id and passowd.");
 		return "login";
     }
 	
 	@RequestMapping(value= "/login", method = RequestMethod.POST)
-	public String doLogin(@Valid LoginRequest req, BindingResult res, 
+	public String doLogin(@Valid @ModelAttribute LoginRequest req, BindingResult res, 
 			Model model) {
 		if (res.hasErrors()) {
 			return "login";
