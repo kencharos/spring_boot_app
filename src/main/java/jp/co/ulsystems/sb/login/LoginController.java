@@ -26,13 +26,6 @@ public class LoginController {
 	@Autowired
 	private AuthUser authUser;
 	
-	@ModelAttribute
-	public LoginRequest createForm(){
-		// ModelAttributeを指定したメソッドは、リクエストを処理するメソッド実行前に呼ばれ、モデルの初期化処理を行う。
-		return new LoginRequest();
-	}
-
-	
 	@RequestMapping(value= "/login", method = RequestMethod.GET)
 	public String login(LoginRequest req, Model model) {
 		model.addAttribute("message", "input your id and passowd.");
